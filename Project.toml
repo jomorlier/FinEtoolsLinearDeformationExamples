@@ -1,0 +1,6 @@
+authors = ["Petr <pkrysl@ucsd.edu>"]
+name = "FinEtoolsLinearDeformationExamples"
+uuid = "cfb6a850-bc75-11e8-308e-597b3d33679e"
+version = "0.1.0"
+
+[deps]
