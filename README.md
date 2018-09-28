@@ -16,7 +16,5 @@ The FinEtools package is  registered, and hence one can do just
 ```julia
 ] add FinEtools
 ```
-Only version 0.7, 1.0, and the nightly builds of Julia are supported. 
 
-The documentation  is published as [Github pages](https://petrkryslucsd.github.io/FinEtools.jl). 
-A use-case package explaining how to integrate FinEtools with  the user's own code is [available here](https://github.com/PetrKryslUCSD/FinEtoolsUseCase).
+The examples may be executed as described in the  [Github pages](https://petrkryslucsd.github.io/FinEtools.jl/tutorials.html). 
