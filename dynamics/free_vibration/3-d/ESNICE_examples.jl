@@ -9,14 +9,16 @@ using LinearAlgebra
 using SparseArrays
 using PGFPlotsX
 using Test
+using StatsBase
 
 function ESNICE_energies()
     E = 1e6*phun("PA");
-    nu = 0.3;
+    nu = 0.0;
     L = 2*phun("M");
-    hs = collect(linearspace(0.1*L, L, 20))
+    hs = L * collect(10 .^ range(-4.0, stop=0.0, length = 10))
     mag = 0.001
 
+    rs = Float64[]
     PEs = Float64[]
     APEs = Float64[]
     for h = hs
@@ -43,6 +45,7 @@ function ESNICE_energies()
         material = MatDeforElastIso(MR, E, nu)
         femm = FEMMDeforLinear(MR, IntegData(fes, TetRule(1)), material)
         associategeometry!(femm, geom)
+
         K = stiffness(femm, geom, u)
         U = gathersysvec(u)
         PE = dot(U, K * U) / 2.0
@@ -50,17 +53,37 @@ function ESNICE_energies()
         I = h * h^3 / 12
         APE = 2 * E * I * mag^2 / L
         push!(APEs, APE)
+
+        ars = []
+        for i = 1:count(fes)
+            res  = FinEtools.FEMMDeforLinearESNICEModule.aspectratio(geom.values[collect(fes.conn[i]), :])
+            push!(ars, mean(res[1:4]))
+        end
+        @show h/L, ars
+        push!(rs, minimum(ars))
+        # push!(rs, h/L)
     end
 
-    r = hs ./ L
-    @show rPE = PEs ./ APEs
+    rPE = PEs ./ APEs
+
+    # Least-squares fit
+    A = hcat([-log10(r) for r in rs], [-1 for r in rPE])
+    b = [log10(r-1) for r in rPE]
+    p = A \ b
+    @show p
+    a = p[1]
+    b = 10^p[2]
+    @show a, b
+
     @pgf a = Axis({
             xlabel = "Aspect ratio",
             ylabel = "Relative Potential Energy",
             grid="major",
             legend_pos  = "north east"
         },
-        Plot({mark="circle"}, Table([:x => vec(r), :y => vec(rPE)])))
+        Plot({color="red"}, Table([:x => log10.(vec(rs)), :y => log10.(vec(rPE))])),
+        Plot({"only marks", mark="x"}, Table([:x => log10.(vec(rs)), :y => log10.(vec([1/(b*r^a)+1 for r in rs]))]))
+        )
     display(a)
 
     # fld = fieldfromintegpoints(femm, geom, u, :Cauchy, 1)
@@ -78,8 +101,6 @@ function ESNICE_vibration()
     radius = 0.5*phun("ft");
     neigvs = 20                   # how many eigenvalues
     OmegaShift = (10.0*2*pi)^2;
-    f = 4450*phun("Hz");
-    omega = 2 * pi * f
 
     MR = DeforModelRed3D
     output = import_ABAQUS("alum_cyl.inp")
@@ -96,6 +117,7 @@ function ESNICE_vibration()
 
     femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
     associategeometry!(femm,  geom)
+    @show minimum(vec(femm.nphis)), maximum(vec(femm.nphis))
     @pgf a = Axis({
             xlabel = "Entity",
             ylabel = "Stabilization factor",
