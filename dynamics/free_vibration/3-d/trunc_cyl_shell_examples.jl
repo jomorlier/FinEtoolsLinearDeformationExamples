@@ -113,7 +113,7 @@ function trunc_cyl_shell_nas()
     neigvs = 20;
 
     MR = DeforModelRed3D
-    output = import_NASTRAN("trunc_cyl_shell.nas")
+    output = import_NASTRAN("trunc_cyl_shell_2.nas")
     fens, fes = output["fens"], output["fesets"][1]
 
     geom = NodalField(fens.xyz)
