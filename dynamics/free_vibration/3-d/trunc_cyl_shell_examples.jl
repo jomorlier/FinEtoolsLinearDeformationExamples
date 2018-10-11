@@ -8,9 +8,9 @@ function trunc_cyl_shell()
     println("""
     Vibration modes of truncated cylindrical shell.
     """)
-    
+
     # t0 = time()
-    
+
     E = 205000*phun("MPa");# Young's modulus
     nu = 0.3;# Poisson ratio
     rho = 7850*phun("KG*M^-3");# mass density
@@ -22,7 +22,7 @@ function trunc_cyl_shell()
     nh = 5; nl  = 12; nc = 40;
     tolerance = h/nh/100;
     neigvs = 20;
-    
+
     MR = DeforModelRed3D
     fens,fes  = H8block(h,l,2*pi,nh,nl,nc)
     # Shape into a cylinder
@@ -37,26 +37,26 @@ function trunc_cyl_shell()
     end
     candidates = selectnode(fens, plane = [0.0 0.0 1.0 0.0], thickness = h/1000)
     fens,fes = mergenodes(fens, fes,  tolerance, candidates);
-    
+
     geom = NodalField(fens.xyz)
     u = NodalField(zeros(size(fens.xyz,1),3)) # displacement field
-    
+
     numberdofs!(u)
-    
+
     material=MatDeforElastIso(MR, rho, E, nu, 0.0)
-    
+
     femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)), material)
     femm = associategeometry!(femm, geom)
     K =stiffness(femm, geom, u)
     femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)), material)
     M =mass(femm, geom, u)
-    
-    
+
+
     # eigs returns the nev requested eigenvalues in d, the corresponding Ritz vectors
     # v (only if ritzvec=true), the number of converged eigenvalues nconv, the number
     # of iterations niter and the number of matrix vector multiplications nmult, as
     # well as the final residual vector resid.
-    
+
     if true
         d,v,nev,nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
         d = d .- OmegaShift;
@@ -64,11 +64,11 @@ function trunc_cyl_shell()
         println("Eigenvalues: $fs [Hz]")
         mode = 7
         scattersysvec!(u, v[:,mode])
-        File =  "unit_cube_modes.vtk"
+        File =  "trunc_cyl_shell.vtk"
         vtkexportmesh(File, fens, fes; vectors=[("mode$mode", u.values)])
         @async run(`"paraview.exe" $File`)
     end
-    
+
     if true
         solver = AlgoDeforLinearModule.ssit
         v0 = rand(size(K,1), 2*neigvs)
@@ -84,19 +84,79 @@ function trunc_cyl_shell()
         println("Eigenvalue errors: $lamberr [ND]")
         mode = 7
         scattersysvec!(u, v[:,mode])
-        File =  "unit_cube_modes.vtk"
+        File =  "trunc_cyl_shell.vtk"
         vtkexportmesh(File, fens, fes; vectors=[("mode$mode", u.values)])
         @async run(`"paraview.exe" $File`)
     end
-    
+
     true
-    
+
+end # trunc_cyl_shell
+
+function trunc_cyl_shell_nas()
+    println("""
+    Vibration modes of truncated cylindrical shell. NASTRAN input file.
+    """)
+
+    # t0 = time()
+
+    E = 205000*phun("MPa");# Young's modulus
+    nu = 0.3;# Poisson ratio
+    rho = 7850*phun("KG*M^-3");# mass density
+    OmegaShift = (2*pi*100) ^ 2; # to resolve rigid body modes
+    h = 0.05*phun("M");
+    l = 10*h;
+    Rmed = h/0.2;
+    psi   = 0;    # Cylinder
+    nh = 5; nl  = 12; nc = 40;
+    tolerance = h/nh/100;
+    neigvs = 20;
+
+    MR = DeforModelRed3D
+    output = import_NASTRAN("trunc_cyl_shell.nas")
+    fens, fes = output["fens"], output["fesets"][1]
+
+    geom = NodalField(fens.xyz)
+    u = NodalField(zeros(size(fens.xyz,1),3)) # displacement field
+
+    numberdofs!(u)
+
+    material = MatDeforElastIso(MR, rho, E, nu, 0.0)
+
+    femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
+    femm = associategeometry!(femm, geom)
+    K = stiffness(femm, geom, u)
+    M = mass(femm, geom, u)
+
+
+    # eigs returns the nev requested eigenvalues in d, the corresponding Ritz vectors
+    # v (only if ritzvec=true), the number of converged eigenvalues nconv, the number
+    # of iterations niter and the number of matrix vector multiplications nmult, as
+    # well as the final residual vector resid.
+
+    if true
+        d,v,nev,nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
+        d = d .- OmegaShift;
+        fs = real(sqrt.(complex(d)))/(2*pi)
+        println("Eigenvalues: $fs [Hz]")
+        mode = 7
+        scattersysvec!(u, v[:,mode])
+        File =  "trunc_cyl_shell_nas.vtk"
+        vtkexportmesh(File, fens, fes; vectors=[("mode$mode", u.values)])
+        @async run(`"paraview.exe" $File`)
+    end
+
+    true
+
 end # trunc_cyl_shell
 
 function allrun()
-    println("#####################################################") 
+    println("#####################################################")
     println("# trunc_cyl_shell ")
     trunc_cyl_shell()
+    println("#####################################################")
+    println("# trunc_cyl_shell_nas ")
+    trunc_cyl_shell_nas()
     return true
 end # function allrun
 

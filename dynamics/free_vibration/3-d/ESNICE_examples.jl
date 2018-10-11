@@ -48,7 +48,7 @@ function ESNICE_energies()
         PE = dot(U, K * U) / 2.0
         push!(PEs, PE)
         I = h * h^3 / 12
-        APE = E * I * mag^2 / L
+        APE = 2 * E * I * mag^2 / L
         push!(APEs, APE)
     end
 
@@ -96,6 +96,14 @@ function ESNICE_vibration()
 
     femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
     associategeometry!(femm,  geom)
+    @pgf a = Axis({
+            xlabel = "Entity",
+            ylabel = "Stabilization factor",
+            grid="major",
+            legend_pos  = "north east"
+        },
+        Plot({mark="circle"}, Table([:x => vec(1:count(fens)), :y => vec(femm.nphis)])))
+    display(a)
     K  = stiffness(femm, geom, u)
     M = mass(femm, geom, u)
     d,v,nev,nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
