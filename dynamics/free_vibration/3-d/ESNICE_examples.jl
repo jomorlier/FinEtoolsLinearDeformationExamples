@@ -62,7 +62,7 @@ function ESNICE_energies()
             ar = sort([res[1], res[2], res[3], res[4]])
             push!(ars, mean([ar[2:3]...]))
         end
-        @show h/L, ars
+        # @show h/L, ars
         # push!(rs, minimum(ars))
         push!(rs, h/L)
     end
@@ -89,10 +89,10 @@ function ESNICE_energies()
         )
     display(a)
 
-    fld = fieldfromintegpoints(femm, geom, u, :Cauchy, 1)
-    File =  "mt4energy2.vtk"
-    vtkexportmesh(File, fens, fes; scalars=[("sigmax", fld.values)], vectors=[("u", u.values)])
-    @async run(`"paraview.exe" $File`)
+    # fld = fieldfromintegpoints(femm, geom, u, :Cauchy, 1)
+    # File =  "mt4energy2.vtk"
+    # vtkexportmesh(File, fens, fes; scalars=[("sigmax", fld.values)], vectors=[("u", u.values)])
+    # @async run(`"paraview.exe" $File`)
     true
 end
 
