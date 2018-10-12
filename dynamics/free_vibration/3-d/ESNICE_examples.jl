@@ -25,25 +25,27 @@ function ESNICE_energies()
         xs = collect(linearspace(0.0, L, 2))
         ys = collect(linearspace(0.0, h, 2))
         zs = collect(linearspace(0.0, h, 2))
+        global fens; global fes
         fens, fes = T4blockx(xs, ys, zs, :a)
+        fens.xyz[:, 3] .-= h/2
         MR = DeforModelRed3D
-        geom = NodalField(fens.xyz)
-        u = NodalField(zeros(size(fens.xyz,1),3)) # displacement field
+        global geom = NodalField(fens.xyz)
+        global u = NodalField(zeros(size(fens.xyz,1),3)) # displacement field
         numberdofs!(u)
 
         l1 = selectnode(fens; plane = [1.0 0.0 0.0 0.0], thickness = h/1000)
         for i = l1
             x,y,z = geom.values[i, :]
-            u.values[i, 1] = (z - h/2) * mag
+            u.values[i, 1] = z * mag
         end
         l1 = selectnode(fens; plane = [1.0 0.0 0.0 L], thickness = h/1000)
         for i = l1
             x,y,z = geom.values[i, :]
-            u.values[i, 1] = -(z - h/2) * mag
+            u.values[i, 1] = -z * mag
         end
-
+        @show h, u.values
         material = MatDeforElastIso(MR, E, nu)
-        femm = FEMMDeforLinear(MR, IntegData(fes, TetRule(1)), material)
+        global femm = FEMMDeforLinear(MR, IntegData(fes, TetRule(1)), material)
         associategeometry!(femm, geom)
 
         K = stiffness(femm, geom, u)
@@ -57,14 +59,15 @@ function ESNICE_energies()
         ars = []
         for i = 1:count(fes)
             res  = FinEtools.FEMMDeforLinearESNICEModule.aspectratio(geom.values[collect(fes.conn[i]), :])
-            push!(ars, mean(res[1:4]))
+            ar = sort([res[1], res[2], res[3], res[4]])
+            push!(ars, mean([ar[2:3]...]))
         end
         @show h/L, ars
-        push!(rs, minimum(ars))
-        # push!(rs, h/L)
+        # push!(rs, minimum(ars))
+        push!(rs, h/L)
     end
 
-    rPE = PEs ./ APEs
+    @show rPE = PEs ./ APEs
 
     # Least-squares fit
     A = hcat([-log10(r) for r in rs], [-1 for r in rPE])
@@ -86,10 +89,10 @@ function ESNICE_energies()
         )
     display(a)
 
-    # fld = fieldfromintegpoints(femm, geom, u, :Cauchy, 1)
-    # File =  "mt4energy2.vtk"
-    # vtkexportmesh(File, fens, fes; scalars=[("sigmax", fld.values)], vectors=[("u", u.values)])
-    # @async run(`"paraview.exe" $File`)
+    fld = fieldfromintegpoints(femm, geom, u, :Cauchy, 1)
+    File =  "mt4energy2.vtk"
+    vtkexportmesh(File, fens, fes; scalars=[("sigmax", fld.values)], vectors=[("u", u.values)])
+    @async run(`"paraview.exe" $File`)
     true
 end
 
@@ -124,7 +127,8 @@ function ESNICE_vibration()
             grid="major",
             legend_pos  = "north east"
         },
-        Plot({mark="circle"}, Table([:x => vec(1:count(fens)), :y => vec(femm.nphis)])))
+        Plot({mark="circle"}, Table([:x => vec(1:count(fes)), :y => vec(femm.ephis)]))
+        )
     display(a)
     K  = stiffness(femm, geom, u)
     M = mass(femm, geom, u)
