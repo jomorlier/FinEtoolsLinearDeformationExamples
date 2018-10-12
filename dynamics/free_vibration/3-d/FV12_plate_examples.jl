@@ -14,7 +14,7 @@ E = 200e3*phun("MPa");
 nu = 0.3;
 rho = 8000*phun("KG/M^3");
 L = 10.00*phun("M"); t = 0.05*phun("M");
-nL = 80; nt =2;
+nL = 8; nt =2;
 neigvs = 14                   # how many eigenvalues
 OmegaShift = (10.0*2*pi)^2;
 # Fundamental frequency
@@ -34,7 +34,7 @@ function FV12_plate_esnice()
 
     femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
     associategeometry!(femm,  geom)
-    
+
     K  = stiffness(femm, geom, u)
     M = mass(femm, geom, u)
     d,v,nev,nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)

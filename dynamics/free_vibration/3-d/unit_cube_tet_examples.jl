@@ -18,7 +18,7 @@ function unit_cube_esnice()
     nu = 0.499;
     rho = 1*phun("KG/M^3");
     a = 1*phun("M"); b = a; h =  a;
-    n1 = 32;# How many element edges per side?
+    n1 = 16;# How many element edges per side?
     na =  n1; nb =  n1; nh  = n1;
     neigvs = 20                   # how many eigenvalues
     OmegaShift = (0.01*2*pi)^2;
