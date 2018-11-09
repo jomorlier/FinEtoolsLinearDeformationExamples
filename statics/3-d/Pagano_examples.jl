@@ -75,7 +75,7 @@ function Pagano_3lay_cyl_bend_MST10_conv()
                 regions = FDataDict[]
                 for layer = 1:nLayers
                     rls = selectelem(fens, fes, label =  layer)
-                    push!(regions, FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
+                    push!(regions, FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
                 end
                 
                 # The essential boundary conditions are applied to enforce the plane strain constraint.
@@ -100,7 +100,7 @@ function Pagano_3lay_cyl_bend_MST10_conv()
                 # Z = thickness
                 tl = selectelem(fens, bfes, box = [-Inf Inf -Inf Inf T T], inflate=tolerance)
                 Trac = FDataDict("traction_vector"=>pfun,
-                "femm"=>FEMMBase(IntegData(subset(bfes, tl), SimplexRule(2, 3))))
+                "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), SimplexRule(2, 3))))
                 
                 modeldata = FDataDict("fens"=>fens,
                 "regions"=>regions,
@@ -261,7 +261,7 @@ function Pagano_3lay_cyl_bend_H8_conv()
                 regions = FDataDict[]
                 for layer = 1:nLayers
                     rls = selectelem(fens, fes, label =  layer)
-                    push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
+                    push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
                 end
                 
                 # The essential boundary conditions are applied to enforce the plane strain constraint.
@@ -285,7 +285,7 @@ function Pagano_3lay_cyl_bend_H8_conv()
                 # From  the entire boundary we select those quadrilaterals that lie on the plane
                 # Z = thickness
                 tl = selectelem(fens, bfes, box = [-Inf Inf -Inf Inf T T], inflate=tolerance)
-                Trac = FDataDict("traction_vector"=>pfun,                "femm"=>FEMMBase(IntegData(subset(bfes, tl), GaussRule(2, 2))))
+                Trac = FDataDict("traction_vector"=>pfun,                "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), GaussRule(2, 2))))
                 
                 modeldata = FDataDict("fens"=>fens, "regions"=>regions, "essential_bcs"=>[ex, ey, ez], "traction_bcs"=> [Trac])
                 modeldata = AlgoDeforLinearModule.linearstatics(modeldata)
@@ -444,7 +444,7 @@ function Pagano_3lay_cyl_bend_MSH8_conv()
                 regions = FDataDict[]
                 for layer = 1:nLayers
                     rls = selectelem(fens, fes, label =  layer)
-                    push!(regions, FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
+                    push!(regions, FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
                 end
                 
                 # The essential boundary conditions are applied to enforce the plane strain constraint.
@@ -468,7 +468,7 @@ function Pagano_3lay_cyl_bend_MSH8_conv()
                 # From  the entire boundary we select those quadrilaterals that lie on the plane
                 # Z = thickness
                 tl = selectelem(fens, bfes, box = [-Inf Inf -Inf Inf T T], inflate=tolerance)
-                Trac = FDataDict("traction_vector"=>pfun, "femm"=>FEMMBase(IntegData(subset(bfes, tl), GaussRule(2, 2))))
+                Trac = FDataDict("traction_vector"=>pfun, "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), GaussRule(2, 2))))
                 
                 modeldata = FDataDict("fens"=>fens, "regions"=>regions, "essential_bcs"=>[ex, ey, ez], "traction_bcs"=> [Trac])
                 modeldata = AlgoDeforLinearModule.linearstatics(modeldata)
@@ -625,7 +625,7 @@ function Pagano_3lay_cyl_bend_T10_conv()
                 regions = FDataDict[]
                 for layer = 1:nLayers
                     rls = selectelem(fens, fes, label =  layer)
-                    push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
+                    push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial)))
                 end
                 
                 # The essential boundary conditions are applied to enforce the plane strain constraint.
@@ -650,7 +650,7 @@ function Pagano_3lay_cyl_bend_T10_conv()
                 # Z = thickness
                 tl = selectelem(fens, bfes, box = [-Inf Inf -Inf Inf T T], inflate=tolerance)
                 Trac = FDataDict("traction_vector"=>pfun,
-                "femm"=>FEMMBase(IntegData(subset(bfes, tl), SimplexRule(2, 3))))
+                "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), SimplexRule(2, 3))))
                 
                 modeldata = FDataDict("fens"=>fens,
                 "regions"=>regions,

@@ -72,7 +72,7 @@ function THICK_plate_2dir_strong_MST10_conv()
             regions = FDataDict[]
             for layer = 1:nLayers
                 rls = selectelem(fens, fes, label =  layer)
-                push!(regions, FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
+                push!(regions, FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
             end
             
             # The essential boundary conditions: clamped face
@@ -92,7 +92,7 @@ function THICK_plate_2dir_strong_MST10_conv()
             # From  the entire boundary we select those quadrilaterals that lie on the plane
             # Z = thickness
             tl = selectelem(fens, bfes, box = [a a -Inf Inf -Inf Inf], inflate=tolerance)
-            Trac = FDataDict("traction_vector"=>pfun, "femm"=>FEMMBase(IntegData(subset(bfes, tl), SimplexRule(2, 3))))
+            Trac = FDataDict("traction_vector"=>pfun, "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), SimplexRule(2, 3))))
             
             modeldata = FDataDict("fens"=>fens, "regions"=>regions, "essential_bcs"=>[eclamped1, eclamped2, eclamped3],  "traction_bcs"=> [Trac])
             modeldata = AlgoDeforLinearModule.linearstatics(modeldata)

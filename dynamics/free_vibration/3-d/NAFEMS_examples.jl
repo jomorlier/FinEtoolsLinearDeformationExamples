@@ -43,8 +43,8 @@ function NAFEMS_FV32_algo()
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)),
-    material), "femm_mass"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)),
+    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)),
+    material), "femm_mass"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)),
     material))
     
     nl1 = selectnode(fens; plane=[1.0 0.0 0.0 0.0], thickness=H/1.0e4)
@@ -131,10 +131,10 @@ function NAFEMS_TEST13H_vib()
     
     material=MatDeforElastIso(MR, rho, E, nu, 0.0)
     
-    femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)), material)
+    femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)), material)
     femm = associategeometry!(femm, geom)
     K = stiffness(femm, geom, u)
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
     M = mass(femm, geom, u)
     
     if true

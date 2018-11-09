@@ -67,7 +67,7 @@ function All_EBC_2dir_MST10_conv()
         regions = FDataDict[]
         for layer = 1:nLayers
             rls = selectelem(fens, fes, label =  layer)
-            push!(regions, FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
+            push!(regions, FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
         end
         
         # The essential boundary conditions: the entire surface
@@ -175,7 +175,7 @@ function All_EBC_2dir_MSH8_conv()
         regions = FDataDict[]
         for layer = 1:nLayers
             rls = selectelem(fens, fes, label =  layer)
-            push!(regions, FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
+            push!(regions, FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
         end
         
         # The essential boundary conditions: the entire surface
@@ -285,7 +285,7 @@ function All_EBC_2dir_MSH8_conv_alt()
         regions = FDataDict[]
         for layer = 1:nLayers
             rls = selectelem(fens, fes, label =  layer)
-            push!(regions, FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
+            push!(regions, FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
         end
         
         # The essential boundary conditions: the entire surface
@@ -395,7 +395,7 @@ function All_EBC_2dir_T10_conv()
         regions = FDataDict[]
         for layer = 1:nLayers
             rls = selectelem(fens, fes, label =  layer)
-            push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
+            push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
         end
         
         # The essential boundary conditions: the entire surface
@@ -506,7 +506,7 @@ function All_EBC_2dir_H8_conv()
         regions = FDataDict[]
         for layer = 1:nLayers
             rls = selectelem(fens, fes, label =  layer)
-            push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
+            push!(regions, FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), material)))
         end
         
         # The essential boundary conditions: the entire surface

@@ -45,14 +45,14 @@ function twisted_beam_algo()
     # Traction on the opposite edge
     boundaryfes  =   meshboundary(fes);
     Toplist   = selectelem(fens,boundaryfes, box =  [L L -100*W 100*W -100*W 100*W], inflate =   tolerance);
-    el1femm  = FEMMBase(IntegData(subset(boundaryfes,Toplist), GaussRule(2, 2)))
+    el1femm  = FEMMBase(IntegDomain(subset(boundaryfes,Toplist), GaussRule(2, 2)))
     flux1 = FDataDict("femm"=>el1femm, "traction_vector"=>loadv)
     
     
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, 00.0, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)),
+    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)),
     material))
     
     # Make model data
@@ -148,14 +148,14 @@ function twisted_beam_algo_stress()
     # Traction on the opposite edge
     boundaryfes  =   meshboundary(fes);
     Toplist   = selectelem(fens,boundaryfes, box =  [L L -100*W 100*W -100*W 100*W], inflate =   tolerance);
-    el1femm  = FEMMBase(IntegData(subset(boundaryfes,Toplist), GaussRule(2, 2)))
+    el1femm  = FEMMBase(IntegDomain(subset(boundaryfes,Toplist), GaussRule(2, 2)))
     flux1 = FDataDict("femm"=>el1femm, "traction_vector"=>loadv)
     
     
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, 00.0, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)),
+    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)),
     material))
     
     # Make model data
@@ -268,14 +268,14 @@ function twisted_beam_export()
     # Traction on the opposite edge
     boundaryfes  =   meshboundary(fes);
     Toplist   = selectelem(fens,boundaryfes, box =  [L L -100*W 100*W -100*W 100*W], inflate =   tolerance);
-    el1femm  = FEMMBase(IntegData(subset(boundaryfes,Toplist), GaussRule(2, 2)))
+    el1femm  = FEMMBase(IntegDomain(subset(boundaryfes,Toplist), GaussRule(2, 2)))
     flux1 = FDataDict("femm"=>el1femm, "traction_vector"=>loadv)
     
     
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, 00.0, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)),
+    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)),
     material))
     
     # Make model data
@@ -346,14 +346,14 @@ function twisted_beam_export_nb()
     # Traction on the opposite edge
     boundaryfes  =   meshboundary(fes);
     Toplist   = selectelem(fens,boundaryfes, box =  [L L -100*W 100*W -100*W 100*W], inflate =   tolerance);
-    el1femm  = FEMMBase(IntegData(subset(boundaryfes,Toplist), GaussRule(2, 2)))
+    el1femm  = FEMMBase(IntegDomain(subset(boundaryfes,Toplist), GaussRule(2, 2)))
     flux1 = FDataDict("femm"=>el1femm, "traction_vector"=>loadv)
     
     
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, 00.0, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)),
+    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)),
     material))
     
     # Make model data
@@ -432,14 +432,14 @@ function twisted_beam_msh8()
     # Traction on the opposite edge
     boundaryfes  =   meshboundary(fes);
     Toplist   = selectelem(fens,boundaryfes, box =  [L L -100*W 100*W -100*W 100*W], inflate =   tolerance);
-    el1femm  = FEMMBase(IntegData(subset(boundaryfes,Toplist), GaussRule(2, 2)))
+    el1femm  = FEMMBase(IntegDomain(subset(boundaryfes,Toplist), GaussRule(2, 2)))
     flux1 = FDataDict("femm"=>el1femm, "traction_vector"=>loadv)
     
     
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, 00.0, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)),
+    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)),
     material))
     
     # Make model data
@@ -537,14 +537,14 @@ function twisted_beam_msh8_algo_stress()
     # Traction on the opposite edge
     boundaryfes  =   meshboundary(fes);
     Toplist   = selectelem(fens,boundaryfes, box =  [L L -100*W 100*W -100*W 100*W], inflate =   tolerance);
-    el1femm  = FEMMBase(IntegData(subset(boundaryfes,Toplist), GaussRule(2, 2)))
+    el1femm  = FEMMBase(IntegDomain(subset(boundaryfes,Toplist), GaussRule(2, 2)))
     flux1 = FDataDict("femm"=>el1femm, "traction_vector"=>loadv)
     
     
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, 00.0, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)),    material))
+    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)),    material))
     
     # Make model data
     modeldata =  FDataDict(

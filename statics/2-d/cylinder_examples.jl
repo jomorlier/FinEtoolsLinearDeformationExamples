@@ -62,7 +62,7 @@ function cylinder_bend()
     # Property and material
     material=MatDeforElastOrtho(MR, E1,E2,E3,nu12,nu13,nu23,G12,G13,G23)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2), true), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2), true), material)
     
     K =stiffness(femm, geom, u)
     F = nzebcloadsstiffness(femm, geom, u)
@@ -140,7 +140,7 @@ function cylinder_pull()
     # Property and material
     material=MatDeforElastOrtho(MR, E1,E2,E3,nu12,nu13,nu23,G12,G13,G23)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2), true), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2), true), material)
     
     K =stiffness(femm, geom, u)
     F = nzebcloadsstiffness(femm, geom, u)
@@ -209,7 +209,7 @@ function cylinder_pull_algo()
     # Property and material
     material=MatDeforElastOrtho(MR, E1,E2,E3,nu12,nu13,nu23,G12,G13,G23)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2), true), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2), true), material)
     
     # Make region
     region = FDataDict("femm"=>femm)

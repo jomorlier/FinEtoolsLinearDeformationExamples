@@ -77,7 +77,7 @@ function fiber_reinf_cant_iso()
     
     gr = GaussRule(3, 2)
     
-    region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, gr), material))
+    region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, gr), material))
     
     lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
     
@@ -89,7 +89,7 @@ function fiber_reinf_cant_iso()
         copyto!(forceout, q0*[0.0; 0.0; 1.0])
     end
     
-    Trac = FDataDict("traction_vector"=>getshr!, "femm"=>FEMMBase(IntegData(subset(bfes, sshearl), GaussRule(2, 3))))
+    Trac = FDataDict("traction_vector"=>getshr!, "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearl), GaussRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[region],
@@ -184,7 +184,7 @@ function fiber_reinf_cant_iso_stresses()
         gr = GaussRule(3, 2)
         
         region = FDataDict("femm"=>FEMMDeforLinearMSH8(MR,
-        IntegData(fes, gr), material))
+        IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
         
@@ -197,7 +197,7 @@ function fiber_reinf_cant_iso_stresses()
         end
         
         Trac = FDataDict("traction_vector"=>getshr!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearl), GaussRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearl), GaussRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -303,7 +303,7 @@ function fiber_reinf_cant_iso_stresses_MST10()
         gr = SimplexRule(3, 4)
         
         region = FDataDict("femm"=>FEMMDeforLinearMST10(MR,
-        IntegData(fes, gr), material))
+        IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
         
@@ -316,7 +316,7 @@ function fiber_reinf_cant_iso_stresses_MST10()
         end
         
         Trac = FDataDict("traction_vector"=>getshr!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearl), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearl), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -429,7 +429,7 @@ function fiber_reinf_cant_iso_stresses_T10()
         gr = SimplexRule(3, 4)
         
         region = FDataDict("femm"=>FEMMDeforLinear(MR,
-        IntegData(fes, gr), material))
+        IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
         
@@ -442,7 +442,7 @@ function fiber_reinf_cant_iso_stresses_T10()
         end
         
         Trac = FDataDict("traction_vector"=>getshr!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearl), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearl), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -564,7 +564,7 @@ function fiber_reinf_cant_yn_strong()
     
     gr = GaussRule(3, 2)
     
-    region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, gr), CSys(3, 3, updatecs!), material))
+    region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, gr), CSys(3, 3, updatecs!), material))
     
     lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
     
@@ -576,7 +576,7 @@ function fiber_reinf_cant_yn_strong()
         copyto!(forceout, q0*[0.0; 0.0; 1.0])
     end
     
-    Trac = FDataDict("traction_vector"=>getshr!, "femm"=>FEMMBase(IntegData(subset(bfes, sshearl), GaussRule(2, 3))))
+    Trac = FDataDict("traction_vector"=>getshr!, "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearl), GaussRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[region],
@@ -690,7 +690,7 @@ function fiber_reinf_cant_yn_strong_no_algo()
     
     gr = GaussRule(3, 2)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, gr), CSys(3, 3, updatecs!), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, gr), CSys(3, 3, updatecs!), material)
 
     lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
     
@@ -711,7 +711,7 @@ function fiber_reinf_cant_yn_strong_no_algo()
         copyto!(forceout, q0*[0.0; 0.0; 1.0])
     end
     
-    Tracfemm = FEMMBase(IntegData(subset(bfes, sshearl), GaussRule(2, 3)))
+    Tracfemm = FEMMBase(IntegDomain(subset(bfes, sshearl), GaussRule(2, 3)))
     
     println("K = stiffness(femm, geom, u)")
     @time K = stiffness(femm, geom, u)

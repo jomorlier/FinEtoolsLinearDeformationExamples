@@ -45,10 +45,10 @@ function trunc_cyl_shell()
 
     material=MatDeforElastIso(MR, rho, E, nu, 0.0)
 
-    femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)), material)
+    femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)), material)
     femm = associategeometry!(femm, geom)
     K =stiffness(femm, geom, u)
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
     M =mass(femm, geom, u)
 
 
@@ -123,7 +123,7 @@ function trunc_cyl_shell_nas()
 
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
 
-    femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
+    femm = FEMMDeforLinearESNICET4(MR, IntegDomain(fes, NodalSimplexRule(3)), material)
     femm = associategeometry!(femm, geom)
     K = stiffness(femm, geom, u)
     M = mass(femm, geom, u)

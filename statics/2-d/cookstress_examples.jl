@@ -36,7 +36,7 @@ function cookstress()
     
     @time boundaryfes =  meshboundary(fes);
     Toplist = selectelem(fens, boundaryfes,  box= [width,  width,  -Inf,  Inf ],  inflate=  tolerance);
-    el1femm =  FEMMBase(IntegData(subset(boundaryfes, Toplist),  GaussRule(1, 2)))
+    el1femm =  FEMMBase(IntegDomain(subset(boundaryfes, Toplist),  GaussRule(1, 2)))
     fi = ForceIntensity([0.0, +magn]);
     F2 = distribloads(el1femm,  geom,  u,  fi,  2);
     
@@ -44,7 +44,7 @@ function cookstress()
     MR = DeforModelRed2DStress
     material = MatDeforElastIso(MR,  0.0, E, nu, 0.0)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes,  TriRule(1)),  material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes,  TriRule(1)),  material)
     
     K = stiffness(femm,  geom,  u)
     K = cholesky(K)
@@ -91,14 +91,14 @@ function cookstress_algo()
     # Traction on the opposite edge
     boundaryfes =  meshboundary(fes);
     Toplist  = selectelem(fens, boundaryfes, box= [width, width, -Inf, Inf ], inflate=  tolerance);
-    el1femm = FEMMBase(IntegData(subset(boundaryfes, Toplist), GaussRule(1, 2)))
+    el1femm = FEMMBase(IntegDomain(subset(boundaryfes, Toplist), GaussRule(1, 2)))
     flux1 = FDataDict("traction_vector"=>[0.0,+magn], "femm"=>el1femm)
     
     # Make the region
     MR = DeforModelRed2DStress
     material = MatDeforElastIso(MR,  0.0, E, nu, 0.0)
     region1 = FDataDict("femm"=>FEMMDeforLinear(MR,
-    IntegData(fes, TriRule(1)), material))
+    IntegDomain(fes, TriRule(1)), material))
     
     modeldata = FDataDict("fens"=>fens,    "regions"=>[region1],    "essential_bcs"=>[ess1, ess2],    "traction_bcs"=>[flux1])
     
@@ -148,14 +148,14 @@ function cookstress_algo_export()
     # Traction on the opposite edge
     boundaryfes =  meshboundary(fes);
     Toplist  = selectelem(fens, boundaryfes, box= [width, width, -Inf, Inf ], inflate=  tolerance);
-    el1femm = FEMMBase(IntegData(subset(boundaryfes, Toplist), GaussRule(1, 2), thickness))
+    el1femm = FEMMBase(IntegDomain(subset(boundaryfes, Toplist), GaussRule(1, 2), thickness))
     flux1 = FDataDict("traction_vector"=>[0.0,+magn], "femm"=>el1femm )
     
     # Make the region
     MR = DeforModelRed2DStress
     material = MatDeforElastIso(MR,  0.0, E, nu, 0.0)
     region1 = FDataDict("femm"=>FEMMDeforLinear(MR,
-    IntegData(fes, TriRule(1), thickness), material))
+    IntegDomain(fes, TriRule(1), thickness), material))
     
     modeldata = FDataDict("fens"=>fens, "regions"=>[region1], "essential_bcs"=>[ess1, ess2], "traction_bcs"=>[flux1])
     
@@ -283,7 +283,7 @@ function cookstress_algo_export_ortho()
     # Traction on the opposite edge
     boundaryfes =  meshboundary(fes);
     Toplist  = selectelem(fens, boundaryfes, box= [width, width, -Inf, Inf ], inflate=  tolerance);
-    el1femm = FEMMBase(IntegData(subset(boundaryfes, Toplist), GaussRule(1, 2), thickness))
+    el1femm = FEMMBase(IntegDomain(subset(boundaryfes, Toplist), GaussRule(1, 2), thickness))
     flux1 = FDataDict("traction_vector"=>[0.0,+magn],
     "femm"=>el1femm
     )
@@ -292,7 +292,7 @@ function cookstress_algo_export_ortho()
     MR = DeforModelRed2DStress
     material = MatDeforElastOrtho(MR,  0.0, E, nu, 0.0)
     region1 = FDataDict("femm"=>FEMMDeforLinear(MR,
-    IntegData(fes, TriRule(1), thickness), material))
+    IntegDomain(fes, TriRule(1), thickness), material))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[region1],
@@ -425,7 +425,7 @@ function cookstress_t6_algo()
     # Traction on the opposite edge
     boundaryfes =  meshboundary(fes);
     Toplist  = selectelem(fens, boundaryfes, box= [width, width, -Inf, Inf ], inflate=  tolerance);
-    el1femm = FEMMBase(IntegData(subset(boundaryfes, Toplist), GaussRule(1, 3)))
+    el1femm = FEMMBase(IntegDomain(subset(boundaryfes, Toplist), GaussRule(1, 3)))
     flux1 = FDataDict("traction_vector"=>[0.0,+magn],
     "femm"=>el1femm
     )
@@ -434,7 +434,7 @@ function cookstress_t6_algo()
     MR = DeforModelRed2DStress
     material = MatDeforElastIso(MR,  0.0, E, nu, 0.0)
     region1 = FDataDict("femm"=>FEMMDeforLinear(MR,
-    IntegData(fes, TriRule(3)), material))
+    IntegDomain(fes, TriRule(3)), material))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[region1],
@@ -496,7 +496,7 @@ function cookstress_t6_ortho2iso_algo()
     # Traction on the opposite edge
     boundaryfes =  meshboundary(fes);
     Toplist  = selectelem(fens, boundaryfes, box= [width, width, -Inf, Inf ], inflate=  tolerance);
-    el1femm = FEMMBase(IntegData(subset(boundaryfes, Toplist), GaussRule(1, 3)))
+    el1femm = FEMMBase(IntegDomain(subset(boundaryfes, Toplist), GaussRule(1, 3)))
     flux1 = FDataDict("traction_vector"=>[0.0,+magn], "femm"=>el1femm)
     
     # Make the region
@@ -504,7 +504,7 @@ function cookstress_t6_ortho2iso_algo()
     # This material model is orthotropic,  but the input parameters correspond to an
     # isotropiic material  model..
     material=MatDeforElastOrtho(MR, E1,E2,E3,nu12,nu13,nu23,G12,G13,G23)
-    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, TriRule(3)), material))
+    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, TriRule(3)), material))
     
     modeldata = FDataDict("fens"=>fens, "regions"=>[region1], "essential_bcs"=>[ess1, ess2], "traction_bcs"=>[flux1])
     

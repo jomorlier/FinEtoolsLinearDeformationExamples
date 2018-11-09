@@ -111,8 +111,8 @@ function NAFEMS_R0031_1()
     selectelem(fens, fes, label = 5), selectelem(fens, fes, label = 7))
     rl2 = vcat(selectelem(fens, fes, label = 2), selectelem(fens, fes, label = 4),
     selectelem(fens, fes, label = 6))
-    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rl1), gr), CSys(3, 3, updatecs!), material))
-    region2 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rl2), gr), CSys(3, 3, updatecs!), material))
+    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rl1), gr), CSys(3, 3, updatecs!), material))
+    region2 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rl2), gr), CSys(3, 3, updatecs!), material))
     
     # File =  "NAFEMS-R0031-1-plate-r1.vtk"
     # vtkexportmesh(File, region1["femm"].integdata.fes.conn, fens.xyz, FinEtools.MeshExportModule.H8)
@@ -150,7 +150,7 @@ function NAFEMS_R0031_1()
     # the line load  with the symmetry plane X=0. Also note that the
     # quadrature rule is one-dimensional  since we are integrating along
     # a curve.
-    Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0/2]), "femm"=>FEMMBase(IntegData(subset(bbfes, zl), GaussRule(1, 3))))
+    Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0/2]), "femm"=>FEMMBase(IntegDomain(subset(bbfes, zl), GaussRule(1, 3))))
     
     modeldata = FDataDict("fens"=>fens, "regions"=>[region1, region2], "essential_bcs"=>[ex0, ey0, ez0], "traction_bcs"=> [Trac])
     modeldata = AlgoDeforLinearModule.linearstatics(modeldata)
@@ -356,8 +356,8 @@ function NAFEMS_R0031_1_H20()
     selectelem(fens, fes, label = 5), selectelem(fens, fes, label = 7))
     rl2 = vcat(selectelem(fens, fes, label = 2), selectelem(fens, fes, label = 4),
     selectelem(fens, fes, label = 6))
-    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rl1), gr), CSys(3, 3, updatecs!), material))
-    region2 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rl2), gr), CSys(3, 3, updatecs!), material))
+    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rl1), gr), CSys(3, 3, updatecs!), material))
+    region2 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rl2), gr), CSys(3, 3, updatecs!), material))
     
     # File =  "NAFEMS-R0031-1-plate-r1.vtk"
     # vtkexportmesh(File, region1["femm"].integdata.fes.conn, fens.xyz, FinEtools.MeshExportModule.H8)
@@ -395,7 +395,7 @@ function NAFEMS_R0031_1_H20()
     # the line load  with the symmetry plane X=0. Also note that the
     # quadrature rule is one-dimensional  since we are integrating along
     # a curve.
-    Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0/2]),    "femm"=>FEMMBase(IntegData(subset(bbfes, zl), GaussRule(1, 3))))
+    Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0/2]),    "femm"=>FEMMBase(IntegDomain(subset(bbfes, zl), GaussRule(1, 3))))
     
     modeldata = FDataDict("fens"=>fens, "regions"=>[region1, region2], "essential_bcs"=>[ex0, ey0, ez0], "traction_bcs"=> [Trac])
     modeldata = AlgoDeforLinearModule.linearstatics(modeldata)
@@ -510,9 +510,9 @@ function NAFEMS_R0031_2_both()
     gr = GaussRule(3, 3)
     
     rli = selectelem(fens, fes, label=1)
-    innerregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rli), gr), innermaterial))
+    innerregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rli), gr), innermaterial))
     rle = selectelem(fens, fes, label=2)
-    outerregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rle), gr), CSys(3, 3, updatecs!), outermaterial))
+    outerregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rle), gr), CSys(3, 3, updatecs!), outermaterial))
     
     lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
     ly0 = selectnode(fens, box=[-Inf Inf 0.0 0.0 -Inf Inf], inflate=tolerance)
@@ -528,7 +528,7 @@ function NAFEMS_R0031_2_both()
         copy!(forceout, q0*csmatout[:, 3])
     end
     
-    Trac = FDataDict("traction_vector"=>getpr!, "femm"=>FEMMBase(IntegData(subset(bfes, intl), GaussRule(2, 3))))
+    Trac = FDataDict("traction_vector"=>getpr!, "femm"=>FEMMBase(IntegDomain(subset(bfes, intl), GaussRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens, "regions"=>[innerregion, outerregion], "essential_bcs"=>[ex0, ey0, ez0], "traction_bcs"=>[Trac], "temperature_change"=>FDataDict("temperature"=>dT))
     modeldata = AlgoDeforLinearModule.linearstatics(modeldata)
@@ -625,10 +625,10 @@ function NAFEMS_R0031_2_pressure()
     
     rli = selectelem(fens, fes, label=1)
     innerregion = FDataDict("femm"=>FEMMDeforLinear(MR,
-    IntegData(subset(fes, rli), gr), innermaterial))
+    IntegDomain(subset(fes, rli), gr), innermaterial))
     rle = selectelem(fens, fes, label=2)
     outerregion = FDataDict("femm"=>FEMMDeforLinear(MR,
-    IntegData(subset(fes, rle), gr), CSys(3, 3, updatecs!), outermaterial))
+    IntegDomain(subset(fes, rle), gr), CSys(3, 3, updatecs!), outermaterial))
     
     lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
     ly0 = selectnode(fens, box=[-Inf Inf 0.0 0.0 -Inf Inf], inflate=tolerance)
@@ -644,7 +644,7 @@ function NAFEMS_R0031_2_pressure()
         copy!(forceout, q0*csmatout[:, 3])
     end
     
-    Trac = FDataDict("traction_vector"=>getpr!, "femm"=>FEMMBase(IntegData(subset(bfes, intl), GaussRule(2, 3))))
+    Trac = FDataDict("traction_vector"=>getpr!, "femm"=>FEMMBase(IntegDomain(subset(bfes, intl), GaussRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[innerregion, outerregion],
@@ -730,13 +730,13 @@ function NAFEMS_R0031_3()
     gr = GaussRule(3, 3)
     
     rl1 = selectelem(fens, fes, label=1)
-    skinbot = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rl1), gr), skinmaterial))
+    skinbot = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rl1), gr), skinmaterial))
     
     rl3 = selectelem(fens, fes, label=3)
-    skintop = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rl3), gr), skinmaterial))
+    skintop = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rl3), gr), skinmaterial))
     
     rl2 = selectelem(fens, fes, label=2)
-    core = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rl2), gr), corematerial))
+    core = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rl2), gr), corematerial))
     
     lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
     lxL2 = selectnode(fens, box=[L/2 L/2 -Inf Inf -Inf Inf], inflate=tolerance)
@@ -750,7 +750,7 @@ function NAFEMS_R0031_3()
     
     bfes = meshboundary(fes)
     ttopl = selectelem(fens, bfes; facing=true, direction = [0.0 0.0 1.0])
-    Trac = FDataDict("traction_vector"=>[0.0; 0.0; -tmag], "femm"=>FEMMBase(IntegData(subset(bfes, ttopl), GaussRule(2, 3))))
+    Trac = FDataDict("traction_vector"=>[0.0; 0.0; -tmag], "femm"=>FEMMBase(IntegDomain(subset(bfes, ttopl), GaussRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens, "regions"=>[skinbot, core, skintop], "essential_bcs"=>[ex0, exL2, ey0, eyL2], "traction_bcs"=> [Trac])
     modeldata = AlgoDeforLinearModule.linearstatics(modeldata)

@@ -112,7 +112,7 @@ function hughes_cantilever_stresses_H8_by_hand()
         copyto!(csmatout, csmat)
     end
         
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     geom = NodalField(fens.xyz)
     u = NodalField(zeros(size(fens.xyz,1), 3)) # displacement field
@@ -131,10 +131,10 @@ function hughes_cantilever_stresses_H8_by_hand()
     numberdofs!(u)
 
     fi = ForceIntensity(FFlt, 3, getfrc0!);
-    el1femm = FEMMBase(IntegData(subset(bfes, sshear0), GaussRule(2, 2)))
+    el1femm = FEMMBase(IntegDomain(subset(bfes, sshear0), GaussRule(2, 2)))
     F1 = distribloads(el1femm, geom, u, fi, 2);
     fi = ForceIntensity(FFlt, 3, getfrcL!);
-    el2femm = FEMMBase(IntegData(subset(bfes, sshearL), GaussRule(2, 2)))
+    el2femm = FEMMBase(IntegDomain(subset(bfes, sshearL), GaussRule(2, 2)))
     F2 = distribloads(el2femm, geom, u, fi, 2);
 
     associategeometry!(femm, geom)
@@ -201,7 +201,7 @@ function hughes_cantilever_stresses_H20_by_hand()
         copyto!(csmatout, csmat)
     end
         
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     geom = NodalField(fens.xyz)
     u = NodalField(zeros(size(fens.xyz,1), 3)) # displacement field
@@ -221,10 +221,10 @@ function hughes_cantilever_stresses_H20_by_hand()
     u
 
     fi = ForceIntensity(FFlt, 3, getfrc0!);
-    el1femm = FEMMBase(IntegData(subset(bfes, sshear0), GaussRule(2, 2)))
+    el1femm = FEMMBase(IntegDomain(subset(bfes, sshear0), GaussRule(2, 2)))
     F1 = distribloads(el1femm, geom, u, fi, 2);
     fi = ForceIntensity(FFlt, 3, getfrcL!);
-    el2femm = FEMMBase(IntegData(subset(bfes, sshearL), GaussRule(2, 2)))
+    el2femm = FEMMBase(IntegDomain(subset(bfes, sshearL), GaussRule(2, 2)))
     F2 = distribloads(el2femm, geom, u, fi, 2);
 
     associategeometry!(femm, geom)
@@ -292,7 +292,7 @@ function hughes_cantilever_stresses_T10_by_hand()
         
     gr = SimplexRule(3, 4)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, gr), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, gr), material)
     
     geom = NodalField(fens.xyz)
     u = NodalField(zeros(size(fens.xyz,1), 3)) # displacement field
@@ -312,10 +312,10 @@ function hughes_cantilever_stresses_T10_by_hand()
 
     
     fi = ForceIntensity(FFlt, 3, getfrc0!);
-    el1femm = FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3)))
+    el1femm = FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3)))
     F1 = distribloads(el1femm, geom, u, fi, 2);
     fi = ForceIntensity(FFlt, 3, getfrcL!);
-    el2femm = FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3)))
+    el2femm = FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3)))
     F2 = distribloads(el2femm, geom, u, fi, 2);
 
     associategeometry!(femm, geom)
@@ -382,7 +382,7 @@ function hughes_cantilever_stresses_MST10_by_hand()
         
     gr = SimplexRule(3, 4)
     
-    femm = FEMMDeforLinearMST10(MR, IntegData(fes, gr), material)
+    femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, gr), material)
     
     geom = NodalField(fens.xyz)
     u = NodalField(zeros(size(fens.xyz,1), 3)) # displacement field
@@ -402,10 +402,10 @@ function hughes_cantilever_stresses_MST10_by_hand()
 
     
     fi = ForceIntensity(FFlt, 3, getfrc0!);
-    el1femm = FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3)))
+    el1femm = FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3)))
     F1 = distribloads(el1femm, geom, u, fi, 2);
     fi = ForceIntensity(FFlt, 3, getfrcL!);
-    el2femm = FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3)))
+    el2femm = FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3)))
     F2 = distribloads(el2femm, geom, u, fi, 2);
 
     associategeometry!(femm, geom)
@@ -470,7 +470,7 @@ function hughes_cantilever_stresses_MST10()
         
         gr = SimplexRule(3, 4)
         
-        region = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(fes, gr), material))
+        region = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 0.0 0.0 0.0 0.0], inflate=tolerance)
         # println("lx0 = $(lx0)")
@@ -486,8 +486,8 @@ function hughes_cantilever_stresses_MST10()
         # println("vcat(ly1, ly2) = $(vcat(ly1, ly2))")
         ey01 = FDataDict( "displacement"=>  0.0, "component"=> 2, "node_list"=>vcat(ly1, ly2) )
         
-        Trac0 = FDataDict("traction_vector"=>getfrc0!, "femm"=>FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3))))
-        TracL = FDataDict("traction_vector"=>getfrcL!, "femm"=>FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3))))
+        Trac0 = FDataDict("traction_vector"=>getfrc0!, "femm"=>FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3))))
+        TracL = FDataDict("traction_vector"=>getfrcL!, "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -566,7 +566,7 @@ function hughes_cantilever_stresses_MST10_incompressible()
         gr = SimplexRule(3, 4)
         
         region = FDataDict("femm"=>FEMMDeforLinearMST10(MR,
-        IntegData(fes, gr), material))
+        IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 0.0 0.0 0.0 0.0], inflate=tolerance)
         # println("lx0 = $(lx0)")
@@ -583,9 +583,9 @@ function hughes_cantilever_stresses_MST10_incompressible()
         ey01 = FDataDict( "displacement"=>  0.0, "component"=> 2, "node_list"=>vcat(ly1, ly2) )
         
         Trac0 = FDataDict("traction_vector"=>getfrc0!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3))))
         TracL = FDataDict("traction_vector"=>getfrcL!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -666,7 +666,7 @@ function hughes_cantilever_stresses_nodal_MST10()
         gr = SimplexRule(3, 4) # rule for tetrahedral meshes
         
         region = FDataDict("femm"=>FEMMDeforLinearMST10(MR,
-        IntegData(fes, gr), material))
+        IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 0.0 0.0 0.0 0.0], inflate=tolerance)
         # println("lx0 = $(lx0)")
@@ -684,9 +684,9 @@ function hughes_cantilever_stresses_nodal_MST10()
         
         
         Trac0 = FDataDict("traction_vector"=>getfrc0!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3))))
         TracL = FDataDict("traction_vector"=>getfrcL!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -763,7 +763,7 @@ function hughes_cantilever_stresses_nodal_T10()
         gr = SimplexRule(3, 4)
         
         region = FDataDict("femm"=>FEMMDeforLinear(MR,
-        IntegData(fes, gr), material))
+        IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 0.0 0.0 0.0 0.0], inflate=tolerance)
         # println("lx0 = $(lx0)")
@@ -780,9 +780,9 @@ function hughes_cantilever_stresses_nodal_T10()
         ey01 = FDataDict( "displacement"=>  0.0, "component"=> 2, "node_list"=>vcat(ly1, ly2) )
         
         Trac0 = FDataDict("traction_vector"=>getfrc0!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3))))
         TracL = FDataDict("traction_vector"=>getfrcL!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -858,7 +858,7 @@ function hughes_cantilever_stresses_T10()
         
         gr = SimplexRule(3, 4)
         
-        region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, gr), material))
+        region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 0.0 0.0 0.0 0.0], inflate=tolerance)
         # println("lx0 = $(lx0)")
@@ -875,9 +875,9 @@ function hughes_cantilever_stresses_T10()
         ey01 = FDataDict( "displacement"=>  0.0, "component"=> 2, "node_list"=>vcat(ly1, ly2) )
         
         Trac0 = FDataDict("traction_vector"=>getfrc0!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3))))
         TracL = FDataDict("traction_vector"=>getfrcL!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],
@@ -958,7 +958,7 @@ function hughes_cantilever_stresses_T10_incompressible()
         gr = SimplexRule(3, 4)
         
         region = FDataDict("femm"=>FEMMDeforLinear(MR,
-        IntegData(fes, gr), material))
+        IntegDomain(fes, gr), material))
         
         lx0 = selectnode(fens, box=[0.0 0.0 0.0 0.0 0.0 0.0], inflate=tolerance)
         # println("lx0 = $(lx0)")
@@ -975,9 +975,9 @@ function hughes_cantilever_stresses_T10_incompressible()
         ey01 = FDataDict( "displacement"=>  0.0, "component"=> 2, "node_list"=>vcat(ly1, ly2) )
         
         Trac0 = FDataDict("traction_vector"=>getfrc0!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshear0), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshear0), SimplexRule(2, 3))))
         TracL = FDataDict("traction_vector"=>getfrcL!,
-        "femm"=>FEMMBase(IntegData(subset(bfes, sshearL), SimplexRule(2, 3))))
+        "femm"=>FEMMBase(IntegDomain(subset(bfes, sshearL), SimplexRule(2, 3))))
         
         modeldata = FDataDict("fens"=>fens,
         "regions"=>[region],

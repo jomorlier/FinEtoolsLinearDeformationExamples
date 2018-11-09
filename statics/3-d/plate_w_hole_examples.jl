@@ -75,7 +75,7 @@ function plate_w_hole_H20_stress()
         
         applyebc!(u)
         numberdofs!(u)
-        el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(2, 3)))
+        el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(2, 3)))
         function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
             local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
             nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -91,7 +91,7 @@ function plate_w_hole_H20_stress()
         
         material = MatDeforElastIso(MR, E, nu)
         
-        femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3, 2)), material)
+        femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3, 2)), material)
         
         # The geometry field now needs to be associated with the FEMM
         femm = associategeometry!(femm, geom)
@@ -208,7 +208,7 @@ function plate_w_hole_MSH8_convergence()
             
             applyebc!(u)
             numberdofs!(u)
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(2, 2)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(2, 2)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
                 nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -231,7 +231,7 @@ function plate_w_hole_MSH8_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+            femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -362,7 +362,7 @@ function plate_w_hole_MSH8_PE_convergence()
             
             applyebc!(u)
             numberdofs!(u)
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(2, 2)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(2, 2)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
                 nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -385,7 +385,7 @@ function plate_w_hole_MSH8_PE_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+            femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -516,7 +516,7 @@ function plate_w_hole_MST10_convergence()
             
             applyebc!(u)
             numberdofs!(u)
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
                 nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -539,7 +539,7 @@ function plate_w_hole_MST10_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -668,7 +668,7 @@ function plate_w_hole_MST10_PE_convergence()
             
             applyebc!(u)
             numberdofs!(u)
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
                 nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -691,7 +691,7 @@ function plate_w_hole_MST10_PE_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -810,7 +810,7 @@ function plate_w_hole_MST10_stress()
         
         applyebc!(u)
         numberdofs!(u)
-        el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+        el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
         function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
             local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
             nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -826,7 +826,7 @@ function plate_w_hole_MST10_stress()
         
         material = MatDeforElastIso(MR, E, nu)
         
-        femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+        femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
         
         # The geometry field now needs to be associated with the FEMM
         femm = associategeometry!(femm, geom)
@@ -946,7 +946,7 @@ function plate_w_hole_RECT_H20_convergence()
             bdryfes = meshboundary(fes);
             # ixl = selectelem(fens, bdryfes, plane=[1.0, 0.0, 0.0, Re], thickness=tolerance);
             ixl = selectelem(fens, bdryfes, box=[Re, Re, -Inf, +Inf, -Inf, +Inf], inflate = tolerance);
-            elxfemm =  FEMMBase(IntegData(subset(bdryfes,ixl), GaussRule(2, 2)))
+            elxfemm =  FEMMBase(IntegDomain(subset(bdryfes,ixl), GaussRule(2, 2)))
             function pfunx(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 forceout[1] = sigmaxx(XYZ)
                 forceout[2] = sigmaxy(XYZ)
@@ -957,7 +957,7 @@ function plate_w_hole_RECT_H20_convergence()
             Fx = distribloads(elxfemm, geom, u, fi, 2);
             # iyl = selectelem(fens, bdryfes, plane=[0.0, 1.0, 0.0, Re], thickness=tolerance);
             iyl = selectelem(fens, bdryfes, box=[-Inf, +Inf, Re, Re, -Inf, +Inf], inflate = tolerance);
-            elyfemm =  FEMMBase(IntegData(subset(bdryfes,iyl), GaussRule(2, 2)))
+            elyfemm =  FEMMBase(IntegDomain(subset(bdryfes,iyl), GaussRule(2, 2)))
             function pfuny(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 forceout[1] = sigmaxy(XYZ)
                 forceout[2] = sigmayy(XYZ)
@@ -971,7 +971,7 @@ function plate_w_hole_RECT_H20_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3, 2)), material)
+            femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3, 2)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -1104,7 +1104,7 @@ function plate_w_hole_RECT_MSH8_convergence()
             
             bdryfes = meshboundary(fes);
             ixl = selectelem(fens, bdryfes, plane=[1.0, 0.0, 0.0, Re], thickness=tolerance);
-            elxfemm =  FEMMBase(IntegData(subset(bdryfes,ixl), GaussRule(2, 2)))
+            elxfemm =  FEMMBase(IntegDomain(subset(bdryfes,ixl), GaussRule(2, 2)))
             function pfunx(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 forceout[1] = sigmaxx(XYZ)
                 forceout[2] = sigmaxy(XYZ)
@@ -1114,7 +1114,7 @@ function plate_w_hole_RECT_MSH8_convergence()
             fi = ForceIntensity(FFlt, 3, pfunx);
             Fx = distribloads(elxfemm, geom, u, fi, 2);
             iyl = selectelem(fens, bdryfes, plane=[0.0, 1.0, 0.0, Re], thickness=tolerance);
-            elyfemm =  FEMMBase(IntegData(subset(bdryfes,iyl), GaussRule(2, 2)))
+            elyfemm =  FEMMBase(IntegDomain(subset(bdryfes,iyl), GaussRule(2, 2)))
             function pfuny(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 forceout[1] = -sigmaxy(XYZ)
                 forceout[2] = sigmayy(XYZ)
@@ -1128,7 +1128,7 @@ function plate_w_hole_RECT_MSH8_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+            femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -1261,7 +1261,7 @@ function plate_w_hole_T10_PE_convergence()
             
             applyebc!(u)
             numberdofs!(u)
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
                 nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -1284,7 +1284,7 @@ function plate_w_hole_T10_PE_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinear(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinear(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -1401,7 +1401,7 @@ function plate_w_hole_T10_stress()
         
         applyebc!(u)
         numberdofs!(u)
-        el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+        el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
         function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
             local r = sqrt(XYZ[1]^2 + XYZ[2]^2)
             nx = XYZ[1]/r; ny = XYZ[2]/r
@@ -1417,7 +1417,7 @@ function plate_w_hole_T10_stress()
         
         material = MatDeforElastIso(MR, E, nu)
         
-        femm = FEMMDeforLinear(MR, IntegData(fes, TetRule(4)), material)
+        femm = FEMMDeforLinear(MR, IntegDomain(fes, TetRule(4)), material)
         
         # The geometry field now needs to be associated with the FEMM
         femm = associategeometry!(femm, geom)

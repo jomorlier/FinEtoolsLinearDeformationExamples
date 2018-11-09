@@ -61,7 +61,7 @@ function orthoballoon()
     # The traction boundary condition is applied in the radial
     # direction.
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(1, 3), true))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(1, 3), true))
     function pressureloading!(forceout::FFltVec, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt)
         copyto!(forceout, XYZ/norm(XYZ)*p)
         return forceout
@@ -72,7 +72,7 @@ function orthoballoon()
     # Property and material
     material=MatDeforElastOrtho(MR, E1,E2,E3,nu12,nu13,nu23,G12,G13,G23)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2), true), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2), true), material)
     
     K =stiffness(femm, geom, u)
     U=  K\(F2)
@@ -140,7 +140,7 @@ function orthoballoon_penalty()
     # The traction boundary condition is applied in the radial
     # direction.
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(1, 3), true))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(1, 3), true))
     function pressureloading!(forceout::FFltVec, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt)
         copyto!(forceout, XYZ/norm(XYZ)*p)
         return forceout
@@ -151,7 +151,7 @@ function orthoballoon_penalty()
     # Property and material
     material=MatDeforElastOrtho(MR, E1,E2,E3,nu12,nu13,nu23,G12,G13,G23)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2), true), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2), true), material)
     
     ##
     # The restraints of the nodes on the bounding cross-sections in the direction
@@ -160,8 +160,8 @@ function orthoballoon_penalty()
     # For that purpose we introduce  a finite element model machine for the
     # surface  finite elements on the cross-sections.
     springcoefficient =1.0e9/ (abs(p)/E1)
-    xsfemm = FEMMDeforWinkler(IntegData(subset(bdryfes, lx), GaussRule(1, 3), true))
-    ysfemm = FEMMDeforWinkler(IntegData(subset(bdryfes, ly), GaussRule(1, 3), true))
+    xsfemm = FEMMDeforWinkler(IntegDomain(subset(bdryfes, lx), GaussRule(1, 3), true))
+    ysfemm = FEMMDeforWinkler(IntegDomain(subset(bdryfes, ly), GaussRule(1, 3), true))
     H = surfacenormalspringstiffness(xsfemm,  geom, u, springcoefficient, SurfaceNormal(3)) +
     surfacenormalspringstiffness(ysfemm,  geom, u, springcoefficient, SurfaceNormal(3))
     K =stiffness(femm, geom, u)

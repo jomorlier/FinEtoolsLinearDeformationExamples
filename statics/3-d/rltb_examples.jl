@@ -48,7 +48,7 @@ function rltb_H8_by_hand()
         copyto!(csmatout, csmat)
     end
         
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     geom = NodalField(fens.xyz)
     u = NodalField(zeros(size(fens.xyz,1), 3)) # displacement field
@@ -63,7 +63,7 @@ function rltb_H8_by_hand()
     numberdofs!(u)
 
     fi = ForceIntensity(FFlt, 3, getfrcL!);
-    el2femm = FEMMBase(IntegData(subset(bfes, sectionL), GaussRule(2, 2)))
+    el2femm = FEMMBase(IntegDomain(subset(bfes, sectionL), GaussRule(2, 2)))
     F2 = distribloads(el2femm, geom, u, fi, 2);
     @show sum(F2)
     associategeometry!(femm, geom)
@@ -118,7 +118,7 @@ function rltb_H20_by_hand()
         copyto!(csmatout, csmat)
     end
         
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     geom = NodalField(fens.xyz)
     u = NodalField(zeros(size(fens.xyz,1), 3)) # displacement field
@@ -133,7 +133,7 @@ function rltb_H20_by_hand()
     numberdofs!(u)
 
     fi = ForceIntensity(FFlt, 3, getfrcL!);
-    el2femm = FEMMBase(IntegData(subset(bfes, sectionL), GaussRule(2, 2)))
+    el2femm = FEMMBase(IntegDomain(subset(bfes, sectionL), GaussRule(2, 2)))
     F2 = distribloads(el2femm, geom, u, fi, 2);
     @show sum(F2)
     associategeometry!(femm, geom)

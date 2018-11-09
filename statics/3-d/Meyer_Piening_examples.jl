@@ -114,11 +114,11 @@ function Meyer_Piening_sandwich()
     # We will create two regions, one for the skin,
     # and one for the core.
     rls = selectelem(fens, fes, label = 1)
-    botskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    botskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rls = selectelem(fens, fes, label = 3)
-    topskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    topskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rlc = selectelem(fens, fes, label = 2)
-    coreregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
+    coreregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
     
     # File =  "Meyer_Piening_sandwich-r1.vtk"
     # vtkexportmesh(File, skinregion["femm"].integdata.fes.conn, fens.xyz, FinEtools.MeshExportModule.H8)
@@ -145,7 +145,7 @@ function Meyer_Piening_sandwich()
     # Z = thickness
     tl = selectelem(fens, bfes, box = [0.0 Lx/2 0 Ly/2 TH TH], inflate=tolerance)
     Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]),
-    "femm"=>FEMMBase(IntegData(subset(bfes, tl), GaussRule(2, 2))))
+    "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), GaussRule(2, 2))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[botskinregion, coreregion, topskinregion],
@@ -356,11 +356,11 @@ function Meyer_Piening_sandwich_H20()
     # We will create two regions, one for the skin,
     # and one for the core.
     rls = selectelem(fens, fes, label = 1)
-    botskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    botskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rls = selectelem(fens, fes, label = 3)
-    topskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    topskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rlc = selectelem(fens, fes, label = 2)
-    coreregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
+    coreregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
     
     # File =  "Meyer_Piening_sandwich-r1.vtk"
     # vtkexportmesh(File, skinregion["femm"].integdata.fes.conn, fens.xyz, FinEtools.MeshExportModule.H8)
@@ -386,7 +386,7 @@ function Meyer_Piening_sandwich_H20()
     # From  the entire boundary we select those quadrilaterals that lie on the plane
     # Z = thickness
     tl = selectelem(fens, bfes, box = [0.0 Lx/2 0 Ly/2 TH TH], inflate=tolerance)
-    Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]), "femm"=>FEMMBase(IntegData(subset(bfes, tl), GaussRule(2, 3))))
+    Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]), "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), GaussRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[botskinregion, coreregion, topskinregion],
@@ -603,11 +603,11 @@ function Meyer_Piening_sandwich_H8()
     # We will create two regions, one for the skin,
     # and one for the core.
     rls = selectelem(fens, fes, label = 1)
-    botskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    botskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rls = selectelem(fens, fes, label = 3)
-    topskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    topskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rlc = selectelem(fens, fes, label = 2)
-    coreregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
+    coreregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
     
     # File =  "Meyer_Piening_sandwich-r1.vtk"
     # vtkexportmesh(File, skinregion["femm"].integdata.fes.conn, fens.xyz, FinEtools.MeshExportModule.H8)
@@ -634,7 +634,7 @@ function Meyer_Piening_sandwich_H8()
     # Z = thickness
     tl = selectelem(fens, bfes, box = [0.0 Lx/2 0 Ly/2 TH TH], inflate=tolerance)
     Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]),
-    "femm"=>FEMMBase(IntegData(subset(bfes, tl), GaussRule(2, 2))))
+    "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), GaussRule(2, 2))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[botskinregion, coreregion, topskinregion],
@@ -848,11 +848,11 @@ function Meyer_Piening_sandwich_MSH8()
     # We will create two regions, one for the skin,
     # and one for the core.
     rls = selectelem(fens, fes, label = 1)
-    botskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    botskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rls = selectelem(fens, fes, label = 3)
-    topskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    topskinregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rlc = selectelem(fens, fes, label = 2)
-    coreregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
+    coreregion = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
     
     # File =  "Meyer_Piening_sandwich-r1.vtk"
     # vtkexportmesh(File, skinregion["femm"].integdata.fes.conn, fens.xyz, FinEtools.MeshExportModule.H8)
@@ -879,7 +879,7 @@ function Meyer_Piening_sandwich_MSH8()
     # Z = thickness
     tl = selectelem(fens, bfes, box = [0.0 Lx/2 0 Ly/2 TH TH], inflate=tolerance)
     Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]),
-    "femm"=>FEMMBase(IntegData(subset(bfes, tl), GaussRule(2, 2))))
+    "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), GaussRule(2, 2))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[botskinregion, coreregion, topskinregion],
@@ -1097,11 +1097,11 @@ function Meyer_Piening_sandwich_MST10()
     # We will create two regions, one for the skin,
     # and one for the core.
     rls = selectelem(fens, fes, label = 1)
-    botskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    botskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rls = selectelem(fens, fes, label = 3)
-    topskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    topskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rlc = selectelem(fens, fes, label = 2)
-    coreregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
+    coreregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
     
     # File =  "Meyer_Piening_sandwich-r1.vtk"
     # vtkexportmesh(File, botskinregion["femm"].integdata.fes.conn, fens.xyz,
@@ -1130,7 +1130,7 @@ function Meyer_Piening_sandwich_MST10()
     # Z = thickness
     tl = selectelem(fens, bfes, box = [0.0 Lx/2 0 Ly/2 TH TH], inflate=tolerance)
     Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]),
-    "femm"=>FEMMBase(IntegData(subset(bfes, tl), SimplexRule(2, 3))))
+    "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), SimplexRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[botskinregion, coreregion, topskinregion],
@@ -1353,11 +1353,11 @@ function Meyer_Piening_sandwich_MST10_timing()
     # We will create two regions, one for the skin,
     # and one for the core.
     rls = selectelem(fens, fes, label = 1)
-    botskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    botskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rls = selectelem(fens, fes, label = 3)
-    topskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    topskinregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rlc = selectelem(fens, fes, label = 2)
-    coreregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegData(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
+    coreregion = FDataDict("femm"=>FEMMDeforLinearMST10(MR, IntegDomain(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
     
     # File =  "Meyer_Piening_sandwich-r1.vtk"
     # vtkexportmesh(File, botskinregion["femm"].integdata.fes.conn, fens.xyz,
@@ -1386,7 +1386,7 @@ function Meyer_Piening_sandwich_MST10_timing()
     # Z = thickness
     tl = selectelem(fens, bfes, box = [0.0 Lx/2 0 Ly/2 TH TH], inflate=tolerance)
     Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]),
-    "femm"=>FEMMBase(IntegData(subset(bfes, tl), SimplexRule(2, 3))))
+    "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), SimplexRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[botskinregion, coreregion, topskinregion],
@@ -1615,11 +1615,11 @@ function Meyer_Piening_sandwich_T10_timing()
     # We will create two regions, one for the skin,
     # and one for the core.
     rls = selectelem(fens, fes, label = 1)
-    botskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    botskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rls = selectelem(fens, fes, label = 3)
-    topskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
+    topskinregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rls), gr), CSys(3, 3, updatecs!), skinmaterial))
     rlc = selectelem(fens, fes, label = 2)
-    coreregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
+    coreregion = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(subset(fes, rlc), gr), CSys(3, 3, updatecs!), corematerial))
     
     # File =  "Meyer_Piening_sandwich-r1.vtk"
     # vtkexportmesh(File, botskinregion["femm"].integdata.fes.conn, fens.xyz,
@@ -1648,7 +1648,7 @@ function Meyer_Piening_sandwich_T10_timing()
     # Z = thickness
     tl = selectelem(fens, bfes, box = [0.0 Lx/2 0 Ly/2 TH TH], inflate=tolerance)
     Trac = FDataDict("traction_vector"=>vec([0.0; 0.0; -q0]),
-    "femm"=>FEMMBase(IntegData(subset(bfes, tl), SimplexRule(2, 3))))
+    "femm"=>FEMMBase(IntegDomain(subset(bfes, tl), SimplexRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[botskinregion, coreregion, topskinregion],

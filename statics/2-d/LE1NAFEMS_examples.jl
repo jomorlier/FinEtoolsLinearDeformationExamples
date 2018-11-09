@@ -37,7 +37,7 @@ function LE1NAFEMS()
     applyebc!(u)
     numberdofs!(u)
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(1, 2)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(1, 2)))
     function pfun(forceout::FFltVec, x::FFltMat, J::FFltMat, l::FInt)
         pt= [2.75/3.25*x[1] 3.25/2.75*x[2]]
         copyto!(forceout, vec(p*pt/norm(pt)))
@@ -48,7 +48,7 @@ function LE1NAFEMS()
     
     MR = DeforModelRed2DStress
     material=MatDeforElastIso(MR, E, nu)
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2)), material)
     
     K =stiffness(femm, geom, u)
     K=cholesky(K)
@@ -117,7 +117,7 @@ function LE1NAFEMS_Q4_convergence()
             numberdofs!(u)
             
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(1, 2), Thickness))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(1, 2), Thickness))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2]]
                 forceout .=    vec(p*pt/norm(pt));
@@ -131,7 +131,7 @@ function LE1NAFEMS_Q4_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2), Thickness), material)
+            femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2), Thickness), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -206,7 +206,7 @@ function LE1NAFEMS_Q8_stress()
     applyebc!(u)
     numberdofs!(u)
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(1, 3)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(1, 3)))
     function pfun(forceout::FFltVec, x::FFltMat, J::FFltMat, l::FInt)
         pt= [2.75/3.25*x[1] 3.25/2.75*x[2]]
         copyto!(forceout, vec(p*pt/norm(pt)))
@@ -218,7 +218,7 @@ function LE1NAFEMS_Q8_stress()
     MR = DeforModelRed2DStress
     material=MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 3)), material)
     
     K =stiffness(femm, geom, u)
     K=cholesky(K)

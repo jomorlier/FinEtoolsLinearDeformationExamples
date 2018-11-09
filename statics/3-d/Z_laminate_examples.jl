@@ -58,7 +58,7 @@ function Z_laminate_u_ss()
     
     gr = GaussRule(3, 3)
     
-    region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, gr), CSys(3, 3, updatecs!), laminamaterial))
+    region = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, gr), CSys(3, 3, updatecs!), laminamaterial))
     
     lx0 = selectnode(fens, box=[0.0 0.0 -Inf Inf -Inf Inf], inflate=tolerance)
     lxa = selectnode(fens, box=[a a -Inf Inf -Inf Inf], inflate=tolerance)
@@ -77,7 +77,7 @@ function Z_laminate_u_ss()
     bfes = meshboundary(fes)
     ttopl = selectelem(fens, bfes; facing=true, direction = [0.0 0.0 1.0])
     Trac = FDataDict("traction_vector"=>[0.0; 0.0; -q0],
-    "femm"=>FEMMBase(IntegData(subset(bfes, ttopl), GaussRule(2, 3))))
+    "femm"=>FEMMBase(IntegDomain(subset(bfes, ttopl), GaussRule(2, 3))))
     
     modeldata = FDataDict("fens"=>fens,
     "regions"=>[region],

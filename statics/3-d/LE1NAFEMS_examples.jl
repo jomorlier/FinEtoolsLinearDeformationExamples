@@ -102,7 +102,7 @@ function LE1NAFEMS_MSH8()
     numberdofs!(u)
     
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(2, 2)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(2, 2)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
         forceout .=    vec(p*pt/norm(pt));
@@ -117,7 +117,7 @@ function LE1NAFEMS_MSH8()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -209,7 +209,7 @@ function LE1NAFEMS_MSH8_convergence()
             numberdofs!(u)
             
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(2, 2)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(2, 2)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
                 forceout .=    vec(p*pt/norm(pt));
@@ -224,7 +224,7 @@ function LE1NAFEMS_MSH8_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+            femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -300,7 +300,7 @@ function LE1NAFEMS_MSH8_export()
     numberdofs!(u)
     
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), GaussRule(2, 2)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), GaussRule(2, 2)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
         forceout .=    vec(p*pt/norm(pt));
@@ -315,7 +315,7 @@ function LE1NAFEMS_MSH8_export()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -393,7 +393,7 @@ function LE1NAFEMS_MST10_convergence()
             numberdofs!(u)
             
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
                 forceout .=    vec(p*pt/norm(pt));
@@ -408,7 +408,7 @@ function LE1NAFEMS_MST10_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -489,7 +489,7 @@ function LE1NAFEMS_MST10_one()
             numberdofs!(u)
             
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
                 forceout .=    vec(p*pt/norm(pt));
@@ -504,7 +504,7 @@ function LE1NAFEMS_MST10_one()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -616,7 +616,7 @@ function LE1NAFEMS_MST10_stresses_nodal()
             applyebc!(u)
             numberdofs!(u)
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
                 forceout .=    vec(p*pt/norm(pt));
@@ -631,7 +631,7 @@ function LE1NAFEMS_MST10_stresses_nodal()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -729,7 +729,7 @@ function LE1NAFEMS_MST10_S_convergence()
             numberdofs!(u)
             
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
             function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
                 pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
                 forceout .=    vec(p*pt/norm(pt));
@@ -744,7 +744,7 @@ function LE1NAFEMS_MST10_S_convergence()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -820,7 +820,7 @@ function LE1NAFEMS_T10_stresses_nodal()
         numberdofs!(u)
         
         
-        el1femm =  FEMMBase(IntegData(subset(bdryfes,icl), TriRule(3)))
+        el1femm =  FEMMBase(IntegDomain(subset(bdryfes,icl), TriRule(3)))
         function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
             pt= [2.75/3.25*XYZ[1], 3.25/2.75*XYZ[2], 0.0]
             forceout .=    vec(p*pt/norm(pt));
@@ -835,7 +835,7 @@ function LE1NAFEMS_T10_stresses_nodal()
         
         material = MatDeforElastIso(MR, E, nu)
         
-        femm = FEMMDeforLinear(MR, IntegData(fes, TetRule(4)), material)
+        femm = FEMMDeforLinear(MR, IntegDomain(fes, TetRule(4)), material)
         
         # The geometry field now needs to be associated with the FEMM
         femm = associategeometry!(femm, geom)

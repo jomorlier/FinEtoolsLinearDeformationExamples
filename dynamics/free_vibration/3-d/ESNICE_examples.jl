@@ -45,7 +45,7 @@ function ESNICE_energies()
         end
         @show h, u.values
         material = MatDeforElastIso(MR, E, nu)
-        global femm = FEMMDeforLinear(MR, IntegData(fes, TetRule(1)), material)
+        global femm = FEMMDeforLinear(MR, IntegDomain(fes, TetRule(1)), material)
         associategeometry!(femm, geom)
 
         K = stiffness(femm, geom, u)
@@ -118,7 +118,7 @@ function ESNICE_vibration()
 
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
 
-    femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
+    femm = FEMMDeforLinearESNICET4(MR, IntegDomain(fes, NodalSimplexRule(3)), material)
     associategeometry!(femm,  geom)
     @show minimum(vec(femm.nphis)), maximum(vec(femm.nphis))
     @pgf a = Axis({

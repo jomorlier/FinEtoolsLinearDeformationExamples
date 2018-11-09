@@ -70,7 +70,7 @@ function alum_cyl_mode_nice_t4()
     
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
     
-    femm = FEMMDeforLinearNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material, stabfact)
+    femm = FEMMDeforLinearNICET4(MR, IntegDomain(fes, NodalSimplexRule(3)), material, stabfact)
     associategeometry!(femm,  geom)
     K  = stiffness(femm, geom, u)
     M = mass(femm, geom, u)
@@ -105,7 +105,7 @@ function alum_cyl_mode_esnice_t4()
     
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
     
-    femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
+    femm = FEMMDeforLinearESNICET4(MR, IntegDomain(fes, NodalSimplexRule(3)), material)
     associategeometry!(femm,  geom)
     K  = stiffness(femm, geom, u)
     M = mass(femm, geom, u)
@@ -143,8 +143,8 @@ function alum_cyl_modes_algo()
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)),
-    material), "femm_mass"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)),
+    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)),
+    material), "femm_mass"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)),
     material))
     
     # Make model data
@@ -200,10 +200,10 @@ function alum_cyl_modes_export()
     
     material=MatDeforElastIso(MR, rho, E, nu, 0.0)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)), material)
     
     K =stiffness(femm, geom, u)
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
     M =mass(femm, geom, u)
     d,v,nev,nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
     d = d - OmegaShift;
@@ -269,8 +269,8 @@ function alum_cyl_modes_msh8_algo()
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)),
-    material), "femm_mass"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,3)),
+    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)),
+    material), "femm_mass"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,3)),
     material))
     
     # Make model data

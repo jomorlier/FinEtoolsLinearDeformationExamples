@@ -33,10 +33,10 @@ function unit_cube_modes()
     
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)), material)
     
     @time K  = stiffness(femm, geom, u)
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
     @time M = mass(femm, geom, u)
     d,v,nev,nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
     d = d .- OmegaShift;
@@ -77,8 +77,8 @@ function unit_cube_modes_algo()
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)),
-    material), "femm_mass"=>FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)),
+    region1 = FDataDict("femm"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)),
+    material), "femm_mass"=>FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)),
     material))
     
     # Make model data
@@ -134,10 +134,10 @@ function unit_cube_modes_export()
     
     material=MatDeforElastIso(MR, rho, E, nu, 0.0)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,2)), material)
     
     K =stiffness(femm, geom, u)
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3,3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3,3)), material)
     M =mass(femm, geom, u)
     d,v,nev,nconv = eigs(K+OmegaShift*M, M; nev=neigvs, which=:SM)
     d = d .- OmegaShift;
@@ -203,8 +203,8 @@ function unit_cube_modes_msh8_algo()
     # Make the region
     MR = DeforModelRed3D
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
-    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,2)),
-    material), "femm_mass"=>FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3,3)),
+    region1 = FDataDict("femm"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,2)),
+    material), "femm_mass"=>FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3,3)),
     material))
     
     # Make model data

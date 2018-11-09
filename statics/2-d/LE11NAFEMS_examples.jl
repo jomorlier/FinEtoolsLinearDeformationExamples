@@ -64,7 +64,7 @@ function LE11NAFEMS_Q8_algo()
     # Property and material
     material = MatDeforElastIso(MR, 0.0, Ea, nua, alphaa)
     
-    femm  =  FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 3), true), material)
+    femm  =  FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 3), true), material)
     
     # Make region 1
     region = FDataDict("femm"=>femm)
@@ -169,7 +169,7 @@ function LE11NAFEMS_Q8_algo2()
     # Property and material
     material = MatDeforElastIso(MR, 0.0, Ea, nua, alphaa)
     
-    femm  =  FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 3), true), material)
+    femm  =  FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 3), true), material)
     
     # Make region 1
     region = FDataDict("femm"=>femm)
@@ -295,7 +295,7 @@ function LE11NAFEMS_Q8_export_stress()
     # Property and material
     material = MatDeforElastIso(MR, 0.0, Ea, nua, alphaa)
     
-    femm  =  FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 3), true), material)
+    femm  =  FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 3), true), material)
     
     K  = stiffness(femm, geom, u)
     F  =  thermalstrainloads(femm, geom, u, dT)
@@ -442,7 +442,7 @@ function LE11NAFEMS_Q8_stress()
     # Property and material
     material = MatDeforElastIso(MR, 0.0, Ea, nua, alphaa)
     
-    femm  =  FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 3), true), material)
+    femm  =  FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 3), true), material)
     
     K  = stiffness(femm, geom, u)
     F  =  thermalstrainloads(femm, geom, u, dT)

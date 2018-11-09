@@ -126,14 +126,14 @@ function thick_pipe_axi()
     # The traction boundary condition is applied in the radial
     # direction.
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,bcl), GaussRule(1, 3), axisymmetric))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,bcl), GaussRule(1, 3), axisymmetric))
     fi = ForceIntensity([press; 0.0]);
     F2= distribloads(el1femm, geom, u, fi, 2);
     
     # Property and material
     material = MatDeforElastIso(MR,  E, nu)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2), axisymmetric), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2), axisymmetric), material)
     
     K = stiffness(femm, geom, u)
     #K=cholesky(K)
@@ -406,7 +406,7 @@ function thick_pipe_ps()
     # The traction boundary condition is applied in the radial
     # direction.
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,bcl), GaussRule(1, 3)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,bcl), GaussRule(1, 3)))
     function pressureloading!(forceout::FFltVec, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt)
         copyto!(forceout, XYZ/norm(XYZ)*press)
         return forceout
@@ -417,7 +417,7 @@ function thick_pipe_ps()
     # Property and material
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(2, 2)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(2, 2)), material)
     
     K =stiffness(femm, geom, u)
     #K=cholesky(K)
@@ -636,7 +636,7 @@ function thick_pipe_ps_T6()
     # The traction boundary condition is applied in the radial
     # direction.
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,bcl), GaussRule(1, 3)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,bcl), GaussRule(1, 3)))
     function pressureloading!(forceout::FFltVec, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt)
         copyto!(forceout, XYZ/norm(XYZ)*press)
         return forceout
@@ -647,7 +647,7 @@ function thick_pipe_ps_T6()
     # Property and material
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, TriRule(3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, TriRule(3)), material)
     
     K =stiffness(femm, geom, u)
     #K=cholesky(K)

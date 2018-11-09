@@ -158,7 +158,7 @@ function LE11NAFEMS_H20()
     # 3x3x3 points  gives good accuracy in this case. Compare it with 2x2x2
     # quadrature to appreciate the difference.
     
-    femm = FEMMDeforLinear(MR, IntegData(fes, GaussRule(3, 3)), material)
+    femm = FEMMDeforLinear(MR, IntegDomain(fes, GaussRule(3, 3)), material)
     
     ##
     # The geometry nodal field is created from the node set.   The
@@ -186,7 +186,7 @@ function LE11NAFEMS_H20()
     # surface  finite elements on the cross-sections.
     springcoefficient =1.0 / ((abs(sigmaA)/1.0e12)/Ea)
     fl = vcat(f1l, f2l)
-    xsfemm = FEMMDeforWinkler(IntegData(subset(bfes,fl), GaussRule(2, 3)))
+    xsfemm = FEMMDeforWinkler(IntegDomain(subset(bfes,fl), GaussRule(2, 3)))
     
     ##
     # We create the temperature field using the formula $T=r+z$.

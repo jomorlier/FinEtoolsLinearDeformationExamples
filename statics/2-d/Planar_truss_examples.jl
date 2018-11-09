@@ -45,19 +45,19 @@ function Planar_truss()
     numberdofs!(u)
     display(u)
     
-    integdata = IntegData(fes, GaussRule(1, 1), (loc, conn, N) -> Area, false)
+    integdata = IntegDomain(fes, GaussRule(1, 1), (loc, conn, N) -> Area, false)
     femm = FEMMDeforLinear(MR, integdata, CSys(2, 1), material)
     display(femm.mcsys)
     K = stiffness(femm,  geom,  u)
     
     fi = ForceIntensity(vec([0 -2000.0]))
-    lfemm = FEMMBase(IntegData(FESetP1(reshape([3], 1,1)), PointRule()))
+    lfemm = FEMMBase(IntegDomain(FESetP1(reshape([3], 1,1)), PointRule()))
     F = distribloads(lfemm,  geom,  u,  fi,  3);
     fi = ForceIntensity(vec([+2000.0 0]))
-    lfemm = FEMMBase(IntegData(FESetP1(reshape([5], 1,1)), PointRule()))
+    lfemm = FEMMBase(IntegDomain(FESetP1(reshape([5], 1,1)), PointRule()))
     F = F + distribloads(lfemm,  geom,  u,  fi,  3);
     fi = ForceIntensity(vec([+4000.0 +6000.0]))
-    lfemm = FEMMBase(IntegData(FESetP1(reshape([6], 1,1)), PointRule()))
+    lfemm = FEMMBase(IntegDomain(FESetP1(reshape([6], 1,1)), PointRule()))
     F = F + distribloads(lfemm,  geom,  u,  fi,  3);
     
     K = cholesky(K)

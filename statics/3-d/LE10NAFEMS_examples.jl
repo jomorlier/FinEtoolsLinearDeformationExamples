@@ -1394,7 +1394,7 @@ function LE10NAFEMS_Abaqus_fine_MST10()
     applyebc!(u)
     numberdofs!(u)
     
-    eL1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), TriRule(3)))
+    eL1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), TriRule(3)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         forceout .=  [0.0, 0.0, -qmagn]
         return forceout
@@ -1408,7 +1408,7 @@ function LE10NAFEMS_Abaqus_fine_MST10()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+    femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -1501,7 +1501,7 @@ function LE10NAFEMS_Abaqus_fine_MST10()
     applyebc!(u)
     numberdofs!(u)
     
-    eL1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), TriRule(3)))
+    eL1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), TriRule(3)))
     fi = ForceIntensity(FFlt, 3, pfun);
     F2 = distribloads(eL1femm, geom, u, fi, 2);
     
@@ -1511,7 +1511,7 @@ function LE10NAFEMS_Abaqus_fine_MST10()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+    femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -1890,7 +1890,7 @@ function LE10NAFEMS_Abaqus_MST10()
     applyebc!(u)
     numberdofs!(u)
     
-    eL1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), TriRule(3)))
+    eL1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), TriRule(3)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         forceout .=  [0.0, 0.0, -qmagn]
         return forceout
@@ -1904,7 +1904,7 @@ function LE10NAFEMS_Abaqus_MST10()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+    femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -1997,7 +1997,7 @@ function LE10NAFEMS_Abaqus_MST10()
     applyebc!(u)
     numberdofs!(u)
     
-    eL1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), TriRule(3)))
+    eL1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), TriRule(3)))
     fi = ForceIntensity(FFlt, 3, pfun);
     F2 = distribloads(eL1femm, geom, u, fi, 2);
     
@@ -2007,7 +2007,7 @@ function LE10NAFEMS_Abaqus_MST10()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+    femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -2109,7 +2109,7 @@ function LE10NAFEMS_MSH8()
     applyebc!(u)
     numberdofs!(u)
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), GaussRule(2, 2)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), GaussRule(2, 2)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         forceout .=  [0.0, 0.0, -qmagn]
         return forceout
@@ -2123,7 +2123,7 @@ function LE10NAFEMS_MSH8()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -2221,7 +2221,7 @@ function LE10NAFEMS_MSH8_alt_export()
     applyebc!(u)
     numberdofs!(u)
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), GaussRule(2, 2)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), GaussRule(2, 2)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         forceout .=  [0.0, 0.0, -qmagn]
         return forceout
@@ -2235,7 +2235,7 @@ function LE10NAFEMS_MSH8_alt_export()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -2362,7 +2362,7 @@ function LE10NAFEMS_MSH8_export()
     applyebc!(u)
     numberdofs!(u)
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), GaussRule(2, 2)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), GaussRule(2, 2)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         forceout .=  [0.0, 0.0, -qmagn]
         return forceout
@@ -2376,7 +2376,7 @@ function LE10NAFEMS_MSH8_export()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+    femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -2503,7 +2503,7 @@ function LE10NAFEMS_MST10()
     applyebc!(u)
     numberdofs!(u)
     
-    el1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), TriRule(3)))
+    el1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), TriRule(3)))
     function pfun(forceout::FVec{T}, XYZ::FFltMat, tangents::FFltMat, fe_label::FInt) where {T}
         forceout .=  [0.0, 0.0, -qmagn]
         return forceout
@@ -2517,7 +2517,7 @@ function LE10NAFEMS_MST10()
     
     material = MatDeforElastIso(MR, E, nu)
     
-    femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+    femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
     
     # The geometry field now needs to be associated with the FEMM
     femm = associategeometry!(femm, geom)
@@ -2667,7 +2667,7 @@ function LE10NAFEMS_MST10_stresses_nodal()
             applyebc!(u)
             numberdofs!(u)
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), TriRule(3)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), TriRule(3)))
             fi = ForceIntensity(FFlt, 3, pfun);
             F2 = distribloads(el1femm, geom, u, fi, 2);
             
@@ -2677,7 +2677,7 @@ function LE10NAFEMS_MST10_stresses_nodal()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMST10(MR, IntegData(fes, TetRule(4)), material)
+            femm = FEMMDeforLinearMST10(MR, IntegDomain(fes, TetRule(4)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)
@@ -2778,7 +2778,7 @@ function LE10NAFEMS_MSH8_stresses_nodal()
             applyebc!(u)
             numberdofs!(u)
             
-            el1femm =  FEMMBase(IntegData(subset(bdryfes,topbfl), GaussRule(2, 2)))
+            el1femm =  FEMMBase(IntegDomain(subset(bdryfes,topbfl), GaussRule(2, 2)))
             fi = ForceIntensity(FFlt, 3, pfun);
             F2 = distribloads(el1femm, geom, u, fi, 2);
             
@@ -2788,7 +2788,7 @@ function LE10NAFEMS_MSH8_stresses_nodal()
             
             material = MatDeforElastIso(MR, E, nu)
             
-            femm = FEMMDeforLinearMSH8(MR, IntegData(fes, GaussRule(3, 2)), material)
+            femm = FEMMDeforLinearMSH8(MR, IntegDomain(fes, GaussRule(3, 2)), material)
             
             # The geometry field now needs to be associated with the FEMM
             femm = associategeometry!(femm, geom)

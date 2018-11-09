@@ -4,6 +4,8 @@
 
 ## News
 
+- 11/09/2018: Updated for FinEtools v1.0.0.
+
 - 09/19/2018: Separated out all examples from the FinEtools package.
 
 

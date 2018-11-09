@@ -32,7 +32,7 @@ function FV12_plate_esnice()
 
     material = MatDeforElastIso(MR, rho, E, nu, 0.0)
 
-    femm = FEMMDeforLinearESNICET4(MR, IntegData(fes, NodalSimplexRule(3)), material)
+    femm = FEMMDeforLinearESNICET4(MR, IntegDomain(fes, NodalSimplexRule(3)), material)
     associategeometry!(femm,  geom)
 
     K  = stiffness(femm, geom, u)
